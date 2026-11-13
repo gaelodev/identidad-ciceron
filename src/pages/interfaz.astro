@@ -1,0 +1,57 @@
+---
+import Manual from '../layouts/Manual.astro';
+import Icon from '../components/Icon.astro';
+
+const comps: [string, string[]][] = [
+  ['Acciones', ['Button', 'IconButton', 'Tooltip', 'Spinner']],
+  ['Editor', ['MenuBar', 'DocTabs', 'SideNav', 'Toolbar', 'ContextBar', 'LayerList']],
+  ['Panel de propiedades', ['PanelHeader', 'SectionDivider']],
+  ['Formularios', ['TextField', 'NumberField', 'Select', 'Checkbox', 'Switch', 'Slider', 'ColorField']],
+  ['Superposiciones', ['Menu', 'Dialog', 'Toast']],
+  ['Inicio', ['Notice', 'QuickAction', 'ProjectCard', 'EmptyState']],
+];
+---
+<Manual title="Interfaz">
+  <p class="eyebrow">09</p>
+  <h1>Interfaz</h1>
+  <p class="lead">La marca en la aplicación es discreta: grises neutros para que el lienzo sea el protagonista y naranja solo para acción y estado. El detalle completo vive en el sistema de diseño.</p>
+
+  <h2>Fundamentos</h2>
+  <div class="grid g3">
+    <div class="card"><div class="card-body"><p class="card-title">Retícula de 4 px</p><p class="card-text">Espaciado de <code>space-1</code> (4 px) a <code>space-16</code> (64 px).</p><div class="bars">{[1, 2, 3, 4, 6, 8].map((n) => <span style={`width:var(--space-${n})`}></span>)}</div></div></div>
+    <div class="card"><div class="card-body"><p class="card-title">Tres radios</p><p class="card-text"><code>radius-sm</code> 4 px en controles, <code>radius-md</code> 8 px en contenedores, <code>radius-full</code>.</p><div class="radii"><span style="border-radius:var(--radius-sm)"></span><span style="border-radius:var(--radius-md)"></span><span style="border-radius:var(--radius-full)"></span></div></div></div>
+    <div class="card"><div class="card-body"><p class="card-title">Tres sombras</p><p class="card-text"><code>shadow-low</code>, <code>shadow-mid</code> y <code>shadow-float</code>. Los paneles se separan con bordes.</p><div class="shadows"><span style="box-shadow:var(--shadow-low)"></span><span style="box-shadow:var(--shadow-mid)"></span><span style="box-shadow:var(--shadow-float)"></span></div></div></div>
+  </div>
+
+  <h2>Tres formas de seleccionar</h2>
+  <div class="grid g3">
+    <div class="card"><div class="card-body"><div class="sel strong"><Icon name="mouse-pointer-2" size={20} /></div><p class="card-title">Fuerte</p><p class="card-text"><code>accent</code> + <code>text-on-accent</code>. Solo la herramienta activa.</p></div></div>
+    <div class="card"><div class="card-body"><div class="sel soft"><Icon name="layers" size={20} /> Capas</div><p class="card-title">Suave</p><p class="card-text"><code>bg-selected</code> + <code>text-accent</code>. Elementos de listas y grupos.</p></div></div>
+    <div class="card"><div class="card-body"><div class="sel ind">Diseño</div><p class="card-title">Indicador</p><p class="card-text">Barra de 2 px en <code>accent</code>. Pestañas.</p></div></div>
+  </div>
+
+  <h2>Componentes</h2>
+  <div class="comps">
+    {comps.map(([g, list]) => <div><p class="card-title">{g}</p><p>{list.map((c) => <code>{c}</code>)}</p></div>)}
+  </div>
+
+  <h2>Recursos</h2>
+  <ul>
+    <li><strong>Sistema de diseño</strong> (artifact privado en claude.ai): tokens, componentes, la plantilla del editor y la guía de voz completa.</li>
+    <li><strong>Plugin de Figma</strong> <code>ciceron-figma-plugin.zip</code>: crea variables claro/oscuro, estilos y todos los componentes en tu archivo.</li>
+    <li><strong><a href="/descargas/paleta/tokens.json">tokens.json</a></strong>: la fuente de verdad que usan este manual, el plugin y la app.</li>
+  </ul>
+</Manual>
+<style>
+  .bars { display: flex; align-items: flex-end; gap: 6px; margin-top: 12px; }
+  .bars span { height: 24px; background: var(--accent); border-radius: 1px; }
+  .radii, .shadows { display: flex; gap: 12px; margin-top: 12px; }
+  .radii span { width: 40px; height: 40px; border: 2px solid var(--accent); }
+  .shadows span { width: 48px; height: 40px; background: var(--bg-raised); border-radius: var(--radius-md); }
+  .sel { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 10px; border-radius: var(--radius-sm); margin-bottom: 12px; font-size: 14px; font-weight: 500; }
+  .strong { background: var(--accent); color: var(--text-on-accent); padding: 0 6px; }
+  .soft { background: var(--bg-selected); color: var(--text-accent); }
+  .ind { border-radius: 0; box-shadow: inset 0 -2px 0 var(--accent); color: var(--text-primary); }
+  .comps { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px 32px; margin-top: 16px; }
+  .comps p:last-child { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
+</style>

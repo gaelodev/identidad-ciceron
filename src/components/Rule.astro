@@ -1,0 +1,6 @@
+---
+import Icon from './Icon.astro';
+interface Props { type: 'do' | 'dont' }
+const { type } = Astro.props;
+---
+<p class:list={['rule', type]}><Icon name={type === 'do' ? 'circle-check' : 'circle-x'} size={18} label={type === 'do' ? 'Sí' : 'No'} /><span><slot /></span></p>

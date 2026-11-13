@@ -1,0 +1,17 @@
+---
+/** Inserta una versión del logo (SVG en línea, sin depender de fuentes). */
+import { brand, type LogoKey } from '../brand.config';
+interface Props { variant: LogoKey; height?: number; class?: string; style?: string; title?: string }
+const { variant, height = 120, class: cls, style, title } = Astro.props;
+const files = import.meta.glob<string>('../assets/logos/*.svg', { query: '?raw', import: 'default', eager: true });
+const raw = files[`../assets/logos/${brand.logos[variant]}`];
+if (!raw) throw new Error(`Logo no encontrado: ${variant}`);
+const vb = /viewBox="[\d.-]+ [\d.-]+ ([\d.]+) ([\d.]+)"/.exec(raw);
+const width = vb ? Math.round((height * parseFloat(vb[1])) / parseFloat(vb[2])) : height;
+const svg = raw.replace(/width="[\d.]+" height="[\d.]+"/, `width="${width}" height="${height}"`).replace(/<title>[^<]*<\/title>/, title ? `<title>${title}</title>` : '$&');
+---
+<span class:list={['logo', cls]} style={style} set:html={svg} />
+<style>
+  .logo { display: inline-flex; }
+  .logo :global(svg) { max-width: 100%; height: auto; }
+</style>

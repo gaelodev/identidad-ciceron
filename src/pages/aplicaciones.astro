@@ -1,0 +1,97 @@
+---
+import Manual from '../layouts/Manual.astro';
+import Logo from '../components/Logo.astro';
+import GradientArt from '../components/GradientArt.astro';
+import Rule from '../components/Rule.astro';
+import { brand } from '../brand.config';
+import shot from '../assets/img/editor-perspectiva-a.png';
+---
+<Manual title="Aplicaciones">
+  <p class="eyebrow">07</p>
+  <h1>Aplicaciones</h1>
+  <p class="lead">Cómo se ve la marca en los lugares donde vive: el sistema operativo, la pantalla de carga, el repositorio y las redes.</p>
+
+  <h2>Icono de la aplicación</h2>
+  <p>Monograma claro sobre un cuadrado redondeado en <code>orange-500</code>. La variante clara se usa en contextos de fondo oscuro donde el naranja no destaca.</p>
+  <div class="icons">
+    <figure><img src="/descargas/aplicaciones/icono-app.svg" width="160" height="160" alt="Icono de la app, naranja" /><figcaption>Principal · 1024 px</figcaption></figure>
+    <figure class="dark"><img src="/descargas/aplicaciones/icono-app-claro.svg" width="160" height="160" alt="Icono de la app, variante clara" /><figcaption>Variante clara</figcaption></figure>
+    <figure><div class="sizes"><img src="/descargas/aplicaciones/icono-app.svg" width="64" height="64" alt="" /><img src="/descargas/aplicaciones/icono-app.svg" width="32" height="32" alt="" /><img src="/descargas/aplicaciones/icono-app.svg" width="16" height="16" alt="" /></div><figcaption>64 · 32 · 16 px</figcaption></figure>
+    <figure><div class="tab"><img src="/favicon.svg" width="16" height="16" alt="" /><span>{brand.name}</span></div><figcaption>Favicon</figcaption></figure>
+  </div>
+  <div class="grid g2">
+    <Rule type="do">Usa el icono tal cual: el radio y el margen del monograma son parte del diseño.</Rule>
+    <Rule type="dont">No añadas el wordmark, sombras ni brillos al icono.</Rule>
+  </div>
+
+  <h2>Pantalla de carga (splash)</h2>
+  <div class="mock r169 splash">
+    <GradientArt width={1600} height={900} monogramSize={0.27} label="Pantalla de carga" />
+    <div class="bar"><span></span></div>
+  </div>
+  <p class="cap">16:9 · degradado naranja, monograma claro al centro y una barra de progreso blanca debajo. Sin texto.</p>
+
+  <h2>Banner y vista previa del repositorio</h2>
+  <div class="mock r4 hb">
+    <GradientArt width={1600} height={400} monogram={false} label="" />
+    <div class="txt"><p>Poderoso. Práctico.<br />Para <strong>todos</strong>.</p><Logo variant="claro" height={150} /></div>
+    <img src={shot.src} alt="" />
+  </div>
+  <p class="cap">Banner 4:1 · lema en Rubik, <code>gray-950</code> con «todos» en blanco y seminegrita; logo claro abajo; captura del editor a la derecha, saliéndose del borde.</p>
+  <div class="mock r21 hb gh">
+    <GradientArt width={1280} height={640} monogram={false} label="" />
+    <div class="txt"><p>Poderoso. Práctico.<br />Para <strong>todos</strong>.</p><Logo variant="claro" height={150} /></div>
+    <img src={shot.src} alt="" />
+  </div>
+  <p class="cap">Vista previa de GitHub 1280 × 640 · la misma composición en 2:1.</p>
+
+  <h2>Redes sociales</h2>
+  <div class="grid g2">
+    <div>
+      <div class="mock r11 post">
+        <GradientArt width={1080} height={1080} preset="claro" monogram={false} label="" />
+        <div class="pt"><span class="eye">Novedad</span><h3>Exporta a PDF, PNG y SVG</h3><p>Sin cuentas. Sin conexión.</p></div>
+        <div class="pm"><Logo variant="monogramaColor" height={80} /></div>
+      </div>
+      <p class="cap">Publicación 1080 × 1080 · degradado claro, titular en Rubik en la zona blanca y monograma a color abajo.</p>
+    </div>
+    <div>
+      <div class="mock r11 avatar"><img src="/descargas/aplicaciones/icono-app.svg" alt="" /></div>
+      <p class="cap">Avatar de perfil · el icono de la app; la plataforma lo recorta en círculo.</p>
+    </div>
+  </div>
+</Manual>
+<style>
+  figure { margin: 0; }
+  .icons { display: flex; flex-wrap: wrap; gap: 24px; margin: 16px 0 24px; }
+  .icons figure { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 20px; border-radius: var(--radius-md); background: var(--bg-surface); border: var(--stroke-1) solid var(--border-subtle); min-width: 180px; justify-content: space-between; }
+  .icons figure.dark { background: var(--gray-950); }
+  .icons figure.dark figcaption { color: var(--gray-300); }
+  .icons figcaption { font-size: 12px; color: var(--text-muted); }
+  .sizes { display: flex; align-items: flex-end; gap: 16px; height: 160px; }
+  .tab { display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; margin-top: 62px; background: var(--bg-raised); border: var(--stroke-1) solid var(--border-subtle); border-radius: var(--radius-md) var(--radius-md) 0 0; font-size: 12px; }
+  .mock { position: relative; container-type: inline-size; overflow: hidden; border-radius: var(--radius-md); border: var(--stroke-1) solid var(--border-subtle); background: var(--gray-0); margin-top: 16px; color: var(--brand-ink); }
+  .mock > :global(.gradient-art) { position: absolute; inset: 0; }
+  .mock > :global(.gradient-art svg) { width: 100%; height: 100%; border-radius: 0; }
+  .r169 { aspect-ratio: 16/9; } .r21 { aspect-ratio: 2/1; } .r11 { aspect-ratio: 1; } .r4 { aspect-ratio: 4/1; }
+  .cap { font-size: 13px; color: var(--text-muted); margin-top: 8px; }
+  .bar { position: absolute; left: 42%; right: 42%; top: 65%; height: .7cqw; border-radius: 99px; background: var(--gray-400); overflow: hidden; }
+  .bar span { display: block; width: 72%; height: 100%; background: var(--gray-0); border-radius: 99px; }
+  .hb { border: 0; }
+  .hb .txt { position: absolute; left: 4cqw; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 4cqw 0 3cqw; }
+  .hb .txt p { font: 400 3.4cqw/1.12 var(--font-display); color: var(--gray-950); margin: 0; }
+  .hb .txt strong { font-weight: 600; color: var(--gray-0); }
+  .hb .txt :global(svg) { width: 9cqw; height: auto; }
+  .hb img { position: absolute; left: 40%; top: -4%; width: 62%; }
+  .gh .txt { padding: 6cqw 0 5cqw; left: 6cqw; }
+  .gh .txt p { font-size: 5.2cqw; }
+  .gh .txt :global(svg) { width: 17cqw; }
+  .gh img { left: 44%; top: 8%; width: 80%; }
+  .pt { position: absolute; inset: 0; padding: 10cqw; display: flex; flex-direction: column; gap: 2cqw; }
+  .pt .eye { font: 600 3.4cqw/1 var(--font-ui); color: var(--orange-700); letter-spacing: .08em; text-transform: uppercase; }
+  .pt h3 { font: 500 9cqw/1.05 var(--font-display); margin: 0; color: var(--brand-ink); max-width: 85%; }
+  .pt p { font: 400 4.4cqw/1.3 var(--font-ui); margin: 0; color: var(--gray-700); }
+  .pm { position: absolute; left: 10cqw; bottom: 9cqw; } .pm :global(svg) { width: 13cqw; height: auto; }
+  .avatar { display: flex; align-items: center; justify-content: center; background: var(--gray-100); }
+  .avatar img { width: 60%; border-radius: 50%; }
+</style>

@@ -1,0 +1,107 @@
+---
+import Manual from '../layouts/Manual.astro';
+import Swatch from '../components/Swatch.astro';
+import Rule from '../components/Rule.astro';
+import { colorTokens, resolveColor, aliasOf, isPrimitive, contrast } from '../lib/tokens';
+const brandColors = [
+  ['orange-500', 'Naranja Cicerón. El color de la marca: logo, splash, ilustración.'],
+  ['brand-deep', 'Naranja profundo. Segunda «C» del monograma, acentos de ilustración.'],
+  ['brand-ink', 'Tinta. Wordmark y textos de marca sobre fondos claros.'],
+  ['brand-stone', 'Piedra. «PROYECTO» en el logo a color.'],
+  ['brand-cream', 'Crema. Segunda «C» del logo claro.'],
+  ['brand-peach', 'Durazno. «PROYECTO» en el logo claro.'],
+] as const;
+const scale = (p: string) => colorTokens.filter((t) => isPrimitive(t) && t.name.startsWith(p));
+const semantic = colorTokens.filter((t) => !isPrimitive(t));
+const groups: [string, string][] = [['Superficies', 'bg-'], ['Bordes', 'border-'], ['Texto', 'text-'], ['Acento', 'accent'], ['Foco y selección', 'focus|selection'], ['Estados', 'danger|success|warning|info']];
+const inGroup = (pre: string) => semantic.filter((t) => new RegExp(`^(${pre})`).test(t.name));
+const pairs = [['text-primary', 'bg-app'], ['text-secondary', 'bg-surface'], ['text-muted', 'bg-raised'], ['text-on-accent', 'accent'], ['text-accent', 'bg-surface'], ['danger', 'bg-surface']] as const;
+---
+<Manual title="Color">
+  <p class="eyebrow">03</p>
+  <h1>Color</h1>
+  <p class="lead">Un naranja con carácter y una base de grises neutros. El naranja se reserva para la marca, la acción y el estado; los grises dejan que el trabajo del usuario sea el protagonista.</p>
+
+  <h2>Colores de marca</h2>
+  <p>Para el logo, las ilustraciones y las piezas de comunicación. Nunca como color de texto en la interfaz.</p>
+  <div class="grid g3">
+    {brandColors.map(([n, u]) => <Swatch big name={n} hex={resolveColor(n)} usage={u} />)}
+  </div>
+
+  <h2>Proporción</h2>
+  <p>En una pieza de marca típica, el blanco y los grises dominan; el naranja aparece con decisión, pero en menor cantidad.</p>
+  <div class="prop" role="img" aria-label="Proporción recomendada: 60% blanco, 20% grises, 15% naranja, 5% acentos">
+    <span style="flex:60;background:var(--gray-0)">Blanco 60 %</span>
+    <span style="flex:20;background:var(--gray-200)">Grises 20 %</span>
+    <span style="flex:15;background:var(--orange-500);color:#fff">Naranja 15 %</span>
+    <span style="flex:5;background:var(--brand-deep)" title="Acentos 5 %"></span>
+  </div>
+
+  <h2>Escalas</h2>
+  <h3>Naranja</h3>
+  <div class="ramp">{scale('orange-').map((t) => <Swatch name={t.name} hex={resolveColor(t.name)} />)}</div>
+  <h3>Gris</h3>
+  <div class="ramp">{scale('gray-').map((t) => <Swatch name={t.name} hex={resolveColor(t.name)} />)}</div>
+
+  <h2>Tokens por función</h2>
+  <p>La interfaz no usa la escala directamente, sino tokens con nombre de función. Cada uno apunta a un color distinto en el tema claro y en el oscuro.</p>
+  {groups.map(([title, pre]) => (
+    <>
+      <h3>{title}</h3>
+      <table class="tok">
+        <thead><tr><th>Token</th><th>Claro</th><th>Oscuro</th><th>Uso</th></tr></thead>
+        <tbody>
+          {inGroup(pre).map((t) => (
+            <tr>
+              <td><code>{t.name}</code></td>
+              {(['light', 'dark'] as const).map((th) => (
+                <td><span class="dot" style={`background:${resolveColor(t.name, th)}`}></span><span class="al">{aliasOf(t.name, th) ?? resolveColor(t.name, th)}</span></td>
+              ))}
+              <td class="u">{t.usage ?? ''}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  ))}
+
+  <h2>Contraste</h2>
+  <p>Todo texto cumple al menos 4.5:1 (WCAG AA) en ambos temas.</p>
+  <table class="tok">
+    <thead><tr><th>Texto sobre fondo</th><th>Claro</th><th>Oscuro</th></tr></thead>
+    <tbody>
+      {pairs.map(([f, b]) => (
+        <tr>
+          <td><code>{f}</code> sobre <code>{b}</code></td>
+          {(['light', 'dark'] as const).map((th) => {
+            const r = contrast(resolveColor(f, th), resolveColor(b, th));
+            return <td><span class="sample" style={`color:${resolveColor(f, th)};background:${resolveColor(b, th)}`}>Aa</span> {r.toFixed(2)}:1 {r >= 4.5 ? '✓' : ''}</td>;
+          })}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2>Reglas</h2>
+  <div class="grid g2">
+    <Rule type="do">Usa <code>accent</code> para la acción principal y <code>orange-500</code> para piezas de marca.</Rule>
+    <Rule type="dont">No uses <code>orange-500</code> para texto: sobre blanco no llega a 4.5:1.</Rule>
+    <Rule type="do">Acompaña siempre los colores de estado con un icono y un texto.</Rule>
+    <Rule type="dont">No inventes colores fuera de la paleta. El único degradado es la ilustración de la marca.</Rule>
+  </div>
+  <p>Descarga la paleta para Inkscape, GIMP, Krita, Adobe o CSS en <a href="/descargas/">Descargas</a>.</p>
+</Manual>
+<style>
+  .prop { display: flex; height: 64px; border-radius: var(--radius-md); overflow: hidden; border: var(--stroke-1) solid var(--border-subtle); margin-top: 16px; }
+  .prop span { display: flex; align-items: center; padding: 0 12px; font-size: 12px; font-weight: 600; color: var(--gray-900); white-space: nowrap; overflow: hidden; }
+  .ramp { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 8px; }
+  .ramp :global(.card-body) { padding: 10px; }
+  .ramp :global(.card-title) { font-size: 12px; white-space: nowrap; }
+  .ramp :global(.chip) { height: 56px; }
+  .tok code, .al { white-space: nowrap; }
+  .tok td { vertical-align: middle; }
+  .dot { display: inline-block; width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--border-subtle); vertical-align: -3px; margin-right: 8px; }
+  .al { font-family: ui-monospace, monospace; font-size: 12px; color: var(--text-secondary); }
+  .u { color: var(--text-secondary); font-size: 13px; }
+  .sample { display: inline-flex; width: 36px; height: 28px; align-items: center; justify-content: center; border-radius: var(--radius-sm); font-weight: 600; border: 1px solid var(--border-subtle); margin-right: 6px; }
+</style>

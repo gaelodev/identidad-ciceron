@@ -1,0 +1,61 @@
+@font-face { font-family: "Rubik"; src: url("/fonts/Rubik-Variable.woff2") format("woff2"); font-weight: 300 900; font-display: swap; }
+@font-face { font-family: "PT Serif"; src: url("/fonts/PTSerif-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Alumni Sans SC"; src: url("/fonts/AlumniSansSC-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+
+:root { --font-ui: "Inter Variable", "Inter", system-ui, sans-serif; color-scheme: light; }
+[data-theme="dark"] { color-scheme: dark; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; font-family: var(--font-ui); font-size: 16px; line-height: 1.6; color: var(--text-primary); background: var(--bg-app); -webkit-font-smoothing: antialiased; }
+img, svg { display: block; max-width: 100%; }
+a { color: var(--text-accent); text-underline-offset: 3px; }
+:focus-visible { outline: var(--stroke-2) solid var(--focus-ring); outline-offset: 2px; }
+code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: .875em; padding: 1px 5px; border-radius: var(--radius-sm); background: var(--bg-field); }
+
+/* Tipografía del manual */
+h1, h2, h3 { font-family: var(--font-display); color: var(--text-primary); line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(36px, 5vw, 56px); font-weight: 500; letter-spacing: -.01em; }
+h2 { font-size: 32px; font-weight: 500; margin-top: 72px; padding-top: 24px; border-top: var(--stroke-1) solid var(--border-subtle); }
+h3 { font-size: 20px; font-weight: 500; margin-top: 40px; }
+p, ul, ol { margin: 16px 0 0; max-width: 68ch; }
+li + li { margin-top: 6px; }
+.lead { font-size: 20px; line-height: 1.5; color: var(--text-secondary); max-width: 60ch; }
+.eyebrow { font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-accent); margin: 0 0 12px; }
+.muted { color: var(--text-muted); }
+.small { font-size: 14px; line-height: 20px; }
+
+/* Rejillas y tarjetas */
+.grid { display: grid; gap: 16px; margin-top: 24px; }
+.g2 { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+.g3 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.g4 { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+.card { background: var(--bg-surface); border: var(--stroke-1) solid var(--border-subtle); border-radius: var(--radius-md); overflow: hidden; }
+.card-body { padding: 16px; }
+.card-title { font-weight: 600; font-size: 14px; line-height: 20px; margin: 0; }
+.card-text { font-size: 14px; line-height: 20px; color: var(--text-muted); margin: 4px 0 0; }
+
+/* Reglas sí / no */
+.rule { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; line-height: 20px; margin-top: 8px; }
+.rule svg { flex: none; width: 18px; height: 18px; margin-top: 1px; }
+.do svg { color: var(--success); }
+.dont svg { color: var(--danger); }
+
+.callout { margin-top: 24px; padding: 16px 20px; border-radius: var(--radius-md); background: var(--bg-selected); border: var(--stroke-1) solid var(--border-selected); font-size: 14px; line-height: 20px; max-width: 72ch; }
+.callout strong { color: var(--text-primary); }
+
+table { border-collapse: collapse; width: 100%; margin-top: 24px; font-size: 14px; line-height: 20px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: var(--stroke-1) solid var(--border-subtle); vertical-align: top; }
+th { font-weight: 600; color: var(--text-secondary); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+
+/* Impresión / PDF */
+@media print {
+  @page { size: A4; margin: 16mm; }
+  body { background: #fff; font-size: 11pt; }
+  .no-print, .sidebar, .topbar { display: none !important; }
+  .main { margin: 0 !important; padding: 0 !important; max-width: none !important; }
+  h2 { break-before: page; border: 0; margin-top: 0; }
+  .card, figure, table, .grid > * { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

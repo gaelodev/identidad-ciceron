@@ -1,0 +1,13 @@
+---
+/** Icono de Lucide (ISC) desde src/assets/icons, en línea y con currentColor. */
+interface Props { name: string; size?: number; label?: string; stroke?: number }
+const { name, size = 20, label, stroke } = Astro.props;
+const files = import.meta.glob<string>('../assets/icons/*.svg', { query: '?raw', import: 'default', eager: true });
+const raw = files[`../assets/icons/${name}.svg`];
+if (!raw) throw new Error(`Icono no encontrado: ${name}`);
+let svg = raw.replace(/<!--[\s\S]*?-->/g, '').trim()
+  .replace(/width="24" height="24"/, `width="${size}" height="${size}"`)
+  .replace('<svg', label ? `<svg role="img" aria-label="${label}"` : '<svg aria-hidden="true"');
+if (stroke) svg = svg.replace('stroke-width="2"', `stroke-width="${stroke}"`);
+---
+<Fragment set:html={svg} />

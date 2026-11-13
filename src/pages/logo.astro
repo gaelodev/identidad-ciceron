@@ -1,0 +1,105 @@
+---
+import Manual from '../layouts/Manual.astro';
+import Logo from '../components/Logo.astro';
+import Rule from '../components/Rule.astro';
+import Icon from '../components/Icon.astro';
+import { brand } from '../brand.config';
+import photo from '../assets/img/editor-perspectiva-a.png';
+const versions = [
+  { v: 'color', title: 'Color (principal)', bg: 'var(--gray-50)', text: 'Sobre fondos claros: blanco, gris muy claro.' },
+  { v: 'claro', title: 'Claro', bg: 'var(--orange-500)', text: 'Solo sobre naranja de marca o negro.' },
+  { v: 'monoOscuro', title: 'Monocromo oscuro', bg: 'var(--gray-0)', text: 'Una tinta: impresión, sellos, grabados.' },
+  { v: 'monoClaro', title: 'Monocromo claro', bg: 'var(--gray-950)', text: 'Una tinta sobre fondos oscuros o fotografía oscura.' },
+] as const;
+const monos = [
+  { v: 'monogramaColor', bg: 'var(--gray-50)' }, { v: 'monogramaClaro', bg: 'var(--orange-500)' },
+  { v: 'monogramaMonoOscuro', bg: 'var(--gray-0)' }, { v: 'monogramaMonoClaro', bg: 'var(--gray-950)' },
+] as const;
+---
+<Manual title="Logo">
+  <p class="eyebrow">02</p>
+  <h1>Logo</h1>
+  <p class="lead">El logo combina el monograma con el wordmark. Usa siempre los archivos originales: tienen el texto convertido a trazos y el área de protección incluida.</p>
+
+  <h2>Anatomía</h2>
+  <div class="anatomy">
+    <div class="tile" style="background:var(--gray-50)"><Logo variant="color" height={260} /></div>
+    <ol>
+      <li><strong>Monograma.</strong> Dos «C» de {brand.logoFonts.monogram}, la segunda invertida.</li>
+      <li><strong>Wordmark.</strong> «{brand.shortName}» en versalitas de {brand.logoFonts.wordmark}.</li>
+      <li><strong>Descriptor.</strong> «PROYECTO» en {brand.logoFonts.descriptor}, muy espaciado. Desaparecerá cuando la marca deje de ser provisional.</li>
+    </ol>
+  </div>
+
+  <h2>Versiones</h2>
+  <div class="grid g2">
+    {versions.map((x) => (
+      <figure class="card">
+        <div class="tile" style={`background:${x.bg}`}><Logo variant={x.v} height={170} /></div>
+        <figcaption class="card-body"><p class="card-title">{x.title}</p><p class="card-text">{x.text}</p></figcaption>
+      </figure>
+    ))}
+  </div>
+  <h3>Monograma solo</h3>
+  <p>Para el icono de la app, el favicon y los avatares, cuando el espacio no permite leer el wordmark.</p>
+  <div class="grid g4">
+    {monos.map((x) => <div class="card"><div class="tile sm" style={`background:${x.bg}`}><Logo variant={x.v} height={90} /></div></div>)}
+  </div>
+
+  <h2>Área de protección</h2>
+  <p>Deja libre alrededor del logo, como mínimo, <strong>la mitad de la altura de la «C»</strong> del monograma (x/2). Los archivos ya traen ese margen: el borde del archivo es el límite del área de protección.</p>
+  <div class="clear">
+    <div class="clearbox"><Logo variant="color" height={260} /><span class="tag t">x/2</span><span class="tag l">x/2</span></div>
+  </div>
+
+  <h2>Tamaño mínimo</h2>
+  <div class="grid g2">
+    <div class="card"><div class="tile sm" style="background:var(--gray-50)"><Logo variant="color" height={64} /></div><div class="card-body"><p class="card-title">Logo completo: 64 px de alto</p><p class="card-text">En impresión, 20 mm. Por debajo, el descriptor deja de leerse.</p></div></div>
+    <div class="card"><div class="tile sm" style="background:var(--gray-50)"><Logo variant="monogramaColor" height={24} /></div><div class="card-body"><p class="card-title">Monograma: 24 px de alto</p><p class="card-text">En impresión, 8 mm. Para tamaños menores usa el favicon.</p></div></div>
+  </div>
+
+  <h2>Fondos</h2>
+  <div class="grid g3">
+    <div class="card"><div class="tile sm" style="background:var(--gray-0)"><Logo variant="color" height={110} /></div><div class="card-body"><Rule type="do">Color sobre blanco.</Rule></div></div>
+    <div class="card"><div class="tile sm" style="background:var(--gray-100)"><Logo variant="color" height={110} /></div><div class="card-body"><Rule type="do">Color sobre gris claro.</Rule></div></div>
+    <div class="card"><div class="tile sm" style="background:var(--orange-500)"><Logo variant="claro" height={110} /></div><div class="card-body"><Rule type="do">Claro sobre naranja de marca.</Rule></div></div>
+    <div class="card"><div class="tile sm" style="background:var(--gray-950)"><Logo variant="claro" height={110} /></div><div class="card-body"><Rule type="do">Claro sobre negro.</Rule></div></div>
+    <div class="card"><div class="tile sm" style="background:var(--gray-900)"><Logo variant="monoClaro" height={110} /></div><div class="card-body"><Rule type="do">Monocromo claro sobre gris oscuro.</Rule></div></div>
+    <div class="card"><div class="tile sm" style="background:var(--orange-300)"><Logo variant="monoOscuro" height={110} /></div><div class="card-body"><Rule type="do">Monocromo oscuro sobre naranja claro.</Rule></div></div>
+  </div>
+
+  <h2>Usos incorrectos</h2>
+  <p>El logo no se modifica. Estos son los errores más comunes:</p>
+  <div class="grid g3 donts">
+    <figure class="card"><div class="tile sm" style="background:var(--gray-50)"><Logo variant="color" height={110} style="transform:scaleX(1.45)" /></div><figcaption class="card-body"><Rule type="dont">No lo estires ni lo deformes.</Rule></figcaption></figure>
+    <figure class="card"><div class="tile sm" style="background:var(--gray-50)"><Logo variant="color" height={110} style="transform:rotate(-14deg)" /></div><figcaption class="card-body"><Rule type="dont">No lo rotes.</Rule></figcaption></figure>
+    <figure class="card"><div class="tile sm" style="background:var(--gray-50)"><Logo variant="color" height={110} style="filter:hue-rotate(160deg) saturate(1.4)" /></div><figcaption class="card-body"><Rule type="dont">No cambies sus colores.</Rule></figcaption></figure>
+    <figure class="card"><div class="tile sm" style="background:var(--orange-500)"><Logo variant="color" height={110} /></div><figcaption class="card-body"><Rule type="dont">No uses la versión a color sobre naranja: se pierde el monograma.</Rule></figcaption></figure>
+    <figure class="card"><div class="tile sm" style="background:var(--gray-0)"><Logo variant="claro" height={110} /></div><figcaption class="card-body"><Rule type="dont">No uses la versión clara sobre fondos claros.</Rule></figcaption></figure>
+    <figure class="card"><div class="tile sm" style="background:var(--gray-50)"><Logo variant="color" height={110} style="filter:drop-shadow(4px 6px 4px rgba(0,0,0,.5))" /></div><figcaption class="card-body"><Rule type="dont">No le agregues sombras, brillos ni contornos.</Rule></figcaption></figure>
+    <figure class="card"><div class="tile sm" style="background:var(--gray-50)"><span class="recompose"><Logo variant="monogramaColor" height={64} /><span>Cicerón</span></span></div><figcaption class="card-body"><Rule type="dont">No recompongas sus partes ni cambies la tipografía.</Rule></figcaption></figure>
+    <figure class="card"><div class="tile sm photo" style={`background-image:url(${photo.src})`}><Logo variant="color" height={110} /></div><figcaption class="card-body"><Rule type="dont">No lo pongas sobre imágenes con mucho detalle sin un fondo sólido.</Rule></figcaption></figure>
+    <figure class="card"><div class="tile sm" style="background:var(--gray-50)"><span class="tight"><Logo variant="color" height={110} style="margin:-22px -28px -22px -10px" /><span class="crowd">Descarga gratis.<br />Diseña sin conexión.</span></span></div><figcaption class="card-body"><Rule type="dont">No invadas el área de protección.</Rule></figcaption></figure>
+  </div>
+  <p class="callout"><Icon name="info" size={16} /> Si ninguna versión funciona sobre un fondo, cambia el fondo, no el logo: coloca el logo sobre un bloque de color sólido permitido.</p>
+</Manual>
+<style>
+  .tile { display: flex; align-items: center; justify-content: center; min-height: 240px; padding: 16px; overflow: hidden; }
+  .tile.sm { min-height: 160px; }
+  .card .tile { border-bottom: var(--stroke-1) solid var(--border-subtle); }
+  figure { margin: 0; }
+  .anatomy { display: grid; grid-template-columns: minmax(0, 1.2fr) 1fr; gap: 32px; align-items: center; margin-top: 24px; }
+  .anatomy .tile { border-radius: var(--radius-md); border: var(--stroke-1) solid var(--border-subtle); }
+  .clear { margin-top: 24px; display: flex; }
+  .clearbox { position: relative; background: var(--gray-50); outline: 2px dashed var(--accent); outline-offset: 0; border-radius: 2px; }
+  .clearbox::after { content: ""; position: absolute; inset: 16.5% 9.5%; border: 1px dashed var(--text-muted); }
+  .tag { position: absolute; font-size: 12px; font-weight: 600; color: var(--text-accent); background: var(--bg-surface); padding: 0 4px; border-radius: 2px; }
+  .tag.t { top: 4px; left: 50%; transform: translateX(-50%); }
+  .tag.l { left: 4px; top: 50%; transform: translateY(-50%); }
+  .recompose { display: inline-flex; align-items: center; gap: 12px; font-family: var(--font-display); font-size: 36px; font-weight: 700; color: var(--brand-ink); }
+  .photo { background-size: cover; background-position: center; }
+  .tight { display: inline-flex; align-items: center; }
+  .crowd { font: 600 15px/1.2 var(--font-display); color: var(--gray-900); border-left: 2px solid var(--danger); padding-left: 4px; }
+  .callout :global(svg) { display: inline; vertical-align: -3px; color: var(--text-accent); }
+  @media (max-width: 760px) { .anatomy { grid-template-columns: 1fr; } }
+</style>

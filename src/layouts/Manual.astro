@@ -1,0 +1,95 @@
+---
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import { brand } from '../brand.config';
+import { ui } from '../i18n/es';
+import { tokensCss } from '../lib/tokens';
+import ThemeToggle from '../components/ThemeToggle.vue';
+import Icon from '../components/Icon.astro';
+import monogram from '../assets/logos/ciceron-monograma-color.svg?raw';
+
+interface Props { title: string; description?: string }
+const { title, description = brand.description } = Astro.props;
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const css = tokensCss();
+const idx = ui.nav.findIndex((n) => n.href === path);
+const prev = idx > 0 ? ui.nav[idx - 1] : null;
+const next = idx >= 0 && idx < ui.nav.length - 1 ? ui.nav[idx + 1] : null;
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title === brand.name ? `Manual de identidad · ${brand.name}` : `${title} · Manual de identidad de ${brand.name}`}</title>
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style is:inline set:html={css}></style>
+  <script is:inline>
+    (function () { var t = null; try { t = localStorage.getItem('ciceron-theme'); } catch (e) {}
+      if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t); })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#contenido">{ui.skip}</a>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brandmark" href="/" aria-label={`${brand.name} — inicio`}>
+        <span class="mono" set:html={monogram}></span>
+        <span><strong>{brand.shortName}</strong><span class="sub">Manual de identidad</span></span>
+      </a>
+      <nav aria-label="Secciones">
+        <ul>
+          {ui.nav.map((n) => (
+            <li><a href={n.href} aria-current={n.href === path ? 'page' : undefined}>{n.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+      <div class="side-foot">
+        <ThemeToggle client:load labels={{ light: ui.themeLight, dark: ui.themeDark }} />
+        <p class="small muted">v{brand.version}<br />{ui.printHint}</p>
+      </div>
+    </aside>
+    <main class="main" id="contenido">
+      {brand.provisional && (
+        <p class="provisional"><Icon name="info" size={16} /> {ui.provisional}</p>
+      )}
+      <slot />
+      <nav class="pager no-print" aria-label="Paginación">
+        {prev ? <a href={prev.href}><span class="muted small">Anterior</span>{prev.label}</a> : <span />}
+        {next ? <a class="next" href={next.href}><span class="muted small">Siguiente</span>{next.label}</a> : <span />}
+      </nav>
+    </main>
+  </div>
+</body>
+</html>
+<style>
+  .skip { position: absolute; left: -9999px; }
+  .skip:focus { left: 16px; top: 16px; z-index: 10; padding: 8px 12px; background: var(--bg-raised); border-radius: var(--radius-sm); }
+  .shell { display: grid; grid-template-columns: 264px 1fr; min-height: 100vh; }
+  .sidebar { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 24px; padding: 24px 16px; background: var(--bg-surface); border-right: var(--stroke-1) solid var(--border-subtle); overflow-y: auto; }
+  .brandmark { display: flex; align-items: center; gap: 12px; padding: 0 8px; color: var(--text-primary); text-decoration: none; }
+  .brandmark .mono :global(svg) { width: 40px; height: auto; }
+  .brandmark strong { display: block; font-family: var(--font-wordmark); font-size: 26px; font-weight: 500; letter-spacing: .06em; line-height: 1; }
+  .brandmark .sub { display: block; font-size: 12px; line-height: 16px; color: var(--text-muted); margin-top: 4px; }
+  nav ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+  nav li + li { margin-top: 2px; }
+  nav a { display: block; padding: 6px 8px; border-radius: var(--radius-sm); font-size: 14px; line-height: 20px; font-weight: 500; color: var(--text-secondary); text-decoration: none; }
+  nav a:hover { background: var(--bg-hover); color: var(--text-primary); }
+  nav a[aria-current="page"] { background: var(--bg-selected); color: var(--text-accent); }
+  .side-foot { margin-top: auto; display: grid; gap: 12px; }
+  .side-foot p { margin: 0; padding: 0 8px; font-size: 12px; line-height: 16px; }
+  .main { padding: 48px clamp(24px, 5vw, 80px) 80px; max-width: 1200px; min-width: 0; }
+  .provisional { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 32px; padding: 6px 12px; border-radius: var(--radius-full); background: var(--warning-subtle); color: var(--text-primary); font-size: 13px; line-height: 18px; max-width: none; }
+  .provisional :global(svg) { color: var(--warning); }
+  .pager { display: flex; justify-content: space-between; gap: 16px; margin-top: 96px; padding-top: 24px; border-top: var(--stroke-1) solid var(--border-subtle); }
+  .pager a { display: flex; flex-direction: column; text-decoration: none; color: var(--text-primary); font-weight: 600; }
+  .pager .next { text-align: right; }
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; }
+    nav ul { display: flex; flex-wrap: wrap; gap: 4px; }
+    nav li + li { margin: 0; }
+  }
+</style>

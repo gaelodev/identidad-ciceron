@@ -1,0 +1,55 @@
+---
+import Manual from '../layouts/Manual.astro';
+import Icon from '../components/Icon.astro';
+import Rule from '../components/Rule.astro';
+const files = import.meta.glob('../assets/icons/*.svg');
+const names = Object.keys(files).map((p) => p.split('/').pop()!.replace('.svg', '')).sort();
+const sample = ['mouse-pointer-2', 'shapes', 'type', 'pen-line', 'image', 'layers'];
+---
+<Manual title="Iconografía">
+  <p class="eyebrow">05</p>
+  <h1>Iconografía</h1>
+  <p class="lead">Todos los iconos vienen de <a href="https://lucide.dev">Lucide</a> (licencia ISC): trazos lineales, extremos redondeados y una retícula de 24 px.</p>
+
+  <h2>Trazo y tamaños</h2>
+  <p>Grosor de <strong>2 px</strong> (token <code>stroke-icon</code>, el valor por defecto de Lucide) en los tres tamaños.</p>
+  <div class="sizes">
+    {[16, 20, 24].map((s) => (
+      <div class="card"><div class="row">{sample.map((n) => <Icon name={n} size={s} />)}</div><div class="card-body"><p class="card-title">{s} px</p><p class="card-text">{s === 16 ? 'Menús y controles pequeños.' : s === 20 ? 'Toolbar, botones y panel.' : 'Barra lateral y estados vacíos.'}</p></div></div>
+    ))}
+  </div>
+
+  <h2>Color</h2>
+  <div class="colors">
+    <span style="color:var(--text-primary)"><Icon name="layers" size={24} /> <code>text-primary</code></span>
+    <span style="color:var(--text-secondary)"><Icon name="layers" size={24} /> <code>text-secondary</code></span>
+    <span style="color:var(--text-accent)"><Icon name="layers" size={24} /> <code>text-accent</code></span>
+    <span class="on" ><Icon name="layers" size={24} /> <code>text-on-accent</code></span>
+  </div>
+
+  <h2>Set actual ({names.length})</h2>
+  <p>Los nombres son los de Lucide: búscalos igual en <code>lucide-vue-next</code> y en Figma.</p>
+  <div class="set">
+    {names.map((n) => <div class="ic"><Icon name={n} size={24} /><span>{n}</span></div>)}
+  </div>
+
+  <h2>Reglas</h2>
+  <div class="grid g2">
+    <Rule type="do">Si falta un icono, búscalo en Lucide con su nombre original.</Rule>
+    <Rule type="dont">No dibujes iconos propios ni mezcles otras librerías.</Rule>
+    <Rule type="do">Los botones de solo icono llevan siempre una etiqueta accesible.</Rule>
+    <Rule type="dont">No cambies el grosor del trazo al escalar ni uses emoji.</Rule>
+  </div>
+</Manual>
+<style>
+  .sizes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+  .sizes .row { display: flex; gap: 16px; padding: 24px 20px; align-items: center; border-bottom: var(--stroke-1) solid var(--border-subtle); color: var(--text-primary); }
+  .colors { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 16px; }
+  .colors span { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: var(--radius-sm); }
+  .colors .on { background: var(--accent); color: var(--text-on-accent); }
+  .colors .on code { color: inherit; background: transparent; }
+  .set { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 8px; margin-top: 16px; }
+  .ic { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 8px 12px; border: var(--stroke-1) solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-surface); color: var(--text-primary); }
+  .ic span { font-size: 11px; color: var(--text-muted); text-align: center; word-break: break-word; }
+  @media (max-width: 760px) { .sizes { grid-template-columns: 1fr; } }
+</style>

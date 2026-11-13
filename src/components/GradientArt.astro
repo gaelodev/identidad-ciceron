@@ -1,0 +1,21 @@
+---
+/** Ilustración de marca: degradado de malla con el monograma opcional al centro. */
+import { gradientSvg, presets, type Blob, type PresetName } from '../lib/gradient';
+import { resolveColor } from '../lib/tokens';
+import { brand } from '../brand.config';
+interface Props { width?: number; height?: number; preset?: PresetName; blobs?: Blob[]; monogram?: boolean; monogramSize?: number; blur?: number; label?: string; class?: string }
+const { width = 1600, height = 900, preset = 'naranja', blobs, monogram = true, monogramSize, blur, label, class: cls } = Astro.props;
+const files = import.meta.glob<string>('../assets/logos/*.svg', { query: '?raw', import: 'default', eager: true });
+const monoFile = presets[preset].monogram === 'claro' ? brand.logos.monogramaClaro : brand.logos.monogramaColor;
+const svg = gradientSvg({
+  width, height, preset, blobs, blur, monogramSize, label,
+  monogramSvg: monogram ? files[`../assets/logos/${monoFile}`] : undefined,
+  color: (n) => resolveColor(n),
+  id: `g${Math.random().toString(36).slice(2, 9)}`,
+});
+---
+<span class:list={['gradient-art', cls]} set:html={svg} />
+<style>
+  .gradient-art { display: block; line-height: 0; }
+  .gradient-art :global(svg) { width: 100%; height: auto; display: block; border-radius: var(--radius-md); }
+</style>

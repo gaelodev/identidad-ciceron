@@ -1,0 +1,30 @@
+---
+import CopyButton from './CopyButton.vue';
+import { contrast, hexToRgb } from '../lib/tokens';
+interface Props { name: string; hex: string; usage?: string; big?: boolean; alias?: string | null }
+const { name, hex, usage, big = false, alias } = Astro.props;
+const onWhite = contrast(hex, '#ffffff');
+const ink = onWhite >= contrast(hex, '#1a1a1a') ? '#ffffff' : '#1a1a1a';
+const [r, g, b] = hexToRgb(hex);
+---
+<figure class:list={['sw card', { big }]}>
+  <div class="chip" style={`background:${hex};color:${ink}`}>
+    {big && <span class="ratio">{onWhite.toFixed(2)}:1 sobre blanco</span>}
+  </div>
+  <figcaption class="card-body">
+    <p class="card-title">{name}</p>
+    {alias && <p class="card-text">= <code>{alias}</code></p>}
+    <div class="vals">
+      <CopyButton client:visible value={hex.toUpperCase()} label={`${name} en hexadecimal`} />
+      {big && <CopyButton client:visible value={`rgb(${r}, ${g}, ${b})`} label={`${name} en RGB`} />}
+    </div>
+    {usage && <p class="card-text">{usage}</p>}
+  </figcaption>
+</figure>
+<style>
+  .sw { margin: 0; }
+  .chip { height: 72px; display: flex; align-items: flex-end; padding: 10px 12px; border-bottom: var(--stroke-1) solid var(--border-subtle); }
+  .big .chip { height: 140px; }
+  .ratio { font-size: 12px; font-weight: 500; opacity: .85; }
+  .vals { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+</style>

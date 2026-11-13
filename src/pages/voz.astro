@@ -1,0 +1,52 @@
+---
+import Manual from '../layouts/Manual.astro';
+import Rule from '../components/Rule.astro';
+const examples = [
+  ['Saludo', 'Buenas tardes, Gael.', 'Bienvenido de nuevo, usuario.'],
+  ['Usuario nuevo', 'Te damos la bienvenida.', '¡¡Bienvenido a la mejor app de diseño!!'],
+  ['Botón', 'Exportar', 'Haz clic aquí para exportar'],
+  ['Estado vacío', 'Aquí se mostrarán tus proyectos más recientes.', 'No tienes proyectos.'],
+  ['Error', 'No se pudo guardar. Revisa que la carpeta exista y vuelve a intentarlo.', 'Error 0x80070005.'],
+  ['Confirmación', '¿Eliminar «volante-app»?', '¿Está seguro de que desea continuar?'],
+  ['Título', 'Nuevo diseño', 'NUEVO DISEÑO · Nuevo Diseño'],
+];
+---
+<Manual title="Voz y tono">
+  <p class="eyebrow">08</p>
+  <h1>Voz y tono</h1>
+  <p class="lead">Hablamos como alguien que sabe de diseño y quiere que tú también lo disfrutes: cálido, directo y sin tecnicismos innecesarios.</p>
+
+  <h2>Principios</h2>
+  <div class="grid g3">
+    <div class="card"><div class="card-body"><p class="card-title">Cercana</p><p class="card-text">De <strong>tú</strong>, siempre. Llamamos a la persona por su nombre cuando lo sabemos.</p></div></div>
+    <div class="card"><div class="card-body"><p class="card-title">Clara</p><p class="card-text">Frases cortas, verbos concretos. Decimos qué pasó y qué hacer después.</p></div></div>
+    <div class="card"><div class="card-body"><p class="card-title">Tranquila</p><p class="card-text">Sin urgencias falsas, sin exclamaciones de más, sin emoji. Nunca culpamos al usuario.</p></div></div>
+  </div>
+
+  <h2>Ejemplos</h2>
+  <table>
+    <thead><tr><th>Situación</th><th>Así sí</th><th>Así no</th></tr></thead>
+    <tbody>{examples.map(([s, y, n]) => <tr><td>{s}</td><td class="y">{y}</td><td class="n">{n}</td></tr>)}</tbody>
+  </table>
+
+  <h2>Reglas de escritura</h2>
+  <div class="grid g2">
+    <Rule type="do">Mayúscula solo inicial en títulos, menús y botones.</Rule>
+    <Rule type="do">Botones con verbo en infinitivo: «Guardar», «Empezar recorrido».</Rule>
+    <Rule type="do">Cuida tildes y signos de apertura: ¿ ¡.</Rule>
+    <Rule type="do">Comillas angulares « » para nombres de archivos y citas.</Rule>
+    <Rule type="dont">No uses jerga técnica cuando hay una palabra común.</Rule>
+    <Rule type="dont">No prometas lo que la app aún no hace.</Rule>
+  </div>
+
+  <h2>Cómo nos describimos</h2>
+  <ul>
+    <li><strong>En una línea:</strong> un editor de diseño gráfico libre que funciona sin conexión.</li>
+    <li><strong>En un párrafo:</strong> combina la facilidad de Canva con la precisión vectorial de Figma, en una aplicación de escritorio gratuita y de código abierto. Sin cuentas ni suscripciones: tus archivos se quedan en tu computadora.</li>
+    <li><strong>Al mencionar a otras herramientas:</strong> con respeto y solo para explicar qué hacemos distinto.</li>
+  </ul>
+</Manual>
+<style>
+  .y { color: var(--text-primary); }
+  .n { color: var(--text-muted); text-decoration: line-through; text-decoration-color: var(--danger); }
+</style>

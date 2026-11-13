@@ -1,0 +1,49 @@
+---
+import Manual from '../layouts/Manual.astro';
+import Logo from '../components/Logo.astro';
+import { brand } from '../brand.config';
+const values = [
+  ['Poderoso', 'Precisión y control vectorial de una herramienta profesional, sin esconderlo detrás de suscripciones.'],
+  ['Práctico', 'Lo común se hace en pocos pasos. La interfaz se aparta y deja el protagonismo al lienzo.'],
+  ['Para todos', 'Gratuito, de código abierto, sin cuentas ni conexión obligatoria. Funciona en local.'],
+];
+---
+<Manual title="Esencia">
+  <p class="eyebrow">01</p>
+  <h1>Esencia</h1>
+  <p class="lead">{brand.name} es un editor de diseño gráfico de escritorio: la sencillez de Canva con la precisión de Figma, gratuito, de código abierto y pensado para trabajar sin conexión.</p>
+
+  <h2>Lema</h2>
+  <p class="motto">{brand.tagline}</p>
+  <div class="grid g3">
+    {values.map(([t, d]) => <div class="card"><div class="card-body"><p class="v">{t}</p><p class="card-text">{d}</p></div></div>)}
+  </div>
+
+  <h2>Para quién</h2>
+  <p>Estudiantes, creadores de contenido, diseñadores, emprendedores y cualquiera que busque una alternativa gratuita y confiable al modelo freemium de herramientas como Canva o Figma.</p>
+
+  <h2>Qué promete</h2>
+  <ul>
+    <li><strong>Offline primero.</strong> Todo funciona en local; no hace falta iniciar sesión.</li>
+    <li><strong>Tus archivos son tuyos.</strong> Se guardan en tu equipo, en un formato propio.</li>
+    <li><strong>Una interfaz que tiene sentido.</strong> Tranquila, compacta y predecible.</li>
+    <li><strong>Gratis y abierto.</strong> Sin planes de pago ni funciones bloqueadas.</li>
+  </ul>
+
+  <h2>Personalidad</h2>
+  <div class="grid g2">
+    <div class="card"><div class="card-body"><p class="card-title">Es</p><p class="card-text">Cálida, directa, clara, confiable, generosa.</p></div></div>
+    <div class="card"><div class="card-body"><p class="card-title">No es</p><p class="card-text">Técnica en exceso, ruidosa, condescendiente, publicitaria.</p></div></div>
+  </div>
+
+  <h2>El monograma</h2>
+  <div class="mono-row">
+    <Logo variant="monogramaColor" height={160} />
+    <p>Dos «C» de {brand.logoFonts.monogram}: la segunda invertida y superpuesta a la primera, en naranja de marca (<code>orange-500</code>) y naranja profundo (<code>brand-deep</code>). Funciona solo como icono de la app y avatar, y junto al wordmark como logo completo.</p>
+  </div>
+</Manual>
+<style>
+  .motto { font-family: var(--font-display); font-size: clamp(32px, 4.5vw, 52px); line-height: 1.1; font-weight: 500; max-width: none; margin-top: 24px; }
+  .v { margin: 0; font-family: var(--font-display); font-size: 24px; font-weight: 500; color: var(--text-accent); }
+  .mono-row { display: flex; gap: 32px; align-items: center; flex-wrap: wrap; margin-top: 24px; }
+</style>

@@ -1,0 +1,38 @@
+---
+import Manual from '../layouts/Manual.astro';
+import Icon from '../components/Icon.astro';
+import { readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
+const root = join(process.cwd(), 'public', 'descargas');
+const size = (b: number) => (b < 1024 ? `${b} B` : b < 1048576 ? `${(b / 1024).toFixed(0)} KB` : `${(b / 1048576).toFixed(1)} MB`);
+const list = (dir: string) => readdirSync(join(root, dir)).sort().map((f) => ({ f, href: `/descargas/${dir}/${f}`, s: size(statSync(join(root, dir, f)).size) }));
+const sections = [
+  { dir: 'logos', title: 'Logos', text: 'Las 4 versiones del logo y del monograma, en SVG (vector, texto en trazos) y PNG transparente.' },
+  { dir: 'aplicaciones', title: 'Icono de la aplicación', text: 'Icono en SVG y PNG a 1024, 512 y 256 px; favicon de 32 px.' },
+  { dir: 'fondos', title: 'Fondos de degradado', text: 'La ilustración de la marca en tamaños comunes, versión naranja y clara, y la pantalla de carga. Usa el PNG en apps que no soportan filtros SVG (como Figma).' },
+  { dir: 'paleta', title: 'Paleta de color', text: '.gpl para Inkscape, GIMP y Krita; .ase para Adobe y Affinity; CSS y JSON para código; tokens.json completo.' },
+  { dir: 'fuentes', title: 'Fuentes', text: 'Rubik, PT Serif y Alumni Sans SC con sus licencias OFL. Inter se instala desde Google Fonts.' },
+];
+---
+<Manual title="Descargas">
+  <p class="eyebrow">10</p>
+  <h1>Descargas</h1>
+  <p class="lead">Todos los recursos de la marca, listos para usar. Antes de usarlos, revisa las reglas de <a href="/logo/">Logo</a> y <a href="/color/">Color</a>.</p>
+  {sections.map((s) => (
+    <>
+      <h2>{s.title}</h2>
+      <p>{s.text}</p>
+      <ul class="files">
+        {list(s.dir).map((x) => <li><a href={x.href} download><Icon name="file-box" size={16} /><span>{x.f}</span></a><small>{x.s}</small></li>)}
+      </ul>
+    </>
+  ))}
+  <p><a href="https://fonts.google.com/specimen/Inter">Descargar Inter en Google Fonts</a></p>
+</Manual>
+<style>
+  .files { list-style: none; padding: 0; margin: 12px 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 6px; }
+  .files li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 12px; border: var(--stroke-1) solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--bg-surface); }
+  .files a { display: inline-flex; gap: 8px; align-items: center; color: var(--text-primary); text-decoration: none; font-size: 14px; }
+  .files a:hover span { text-decoration: underline; }
+  .files small { color: var(--text-muted); font-size: 12px; white-space: nowrap; }
+</style>

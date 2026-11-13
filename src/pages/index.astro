@@ -1,0 +1,56 @@
+---
+import Manual from '../layouts/Manual.astro';
+import Logo from '../components/Logo.astro';
+import GradientArt from '../components/GradientArt.astro';
+import { brand } from '../brand.config';
+import { ui } from '../i18n/es';
+const sections = [
+  ['Esencia', '/esencia/', 'Qué es la marca, para quién es y qué promete.'],
+  ['Logo', '/logo/', 'Versiones, área de protección, tamaños mínimos y usos incorrectos.'],
+  ['Color', '/color/', 'Colores de marca, escalas, tokens por tema y contraste.'],
+  ['Tipografía', '/tipografia/', 'Inter para la interfaz, Rubik para la marca, y la escala.'],
+  ['Iconografía', '/iconografia/', 'Lucide: trazo, tamaños y color.'],
+  ['Fotografía e ilustración', '/imagenes/', 'El degradado de la marca y la dirección fotográfica.'],
+  ['Aplicaciones', '/aplicaciones/', 'Icono de la app, favicon, splash, redes y repositorio.'],
+  ['Voz y tono', '/voz/', 'Cómo escribe la marca, con ejemplos.'],
+  ['Interfaz', '/interfaz/', 'Cómo se traduce la marca a la aplicación.'],
+  ['Descargas', '/descargas/', 'Logos, icono de la app, paletas y fuentes.'],
+];
+---
+<Manual title={brand.name}>
+  <p class="eyebrow">Manual de identidad</p>
+  <h1>{brand.name}</h1>
+  <p class="lead">{brand.description} Este manual reúne lo necesario para usar la marca con coherencia: en la aplicación, en el repositorio, en redes y en cualquier pieza que la represente.</p>
+  <div class="hero grid g2">
+    <div class="tile light"><Logo variant="color" height={200} /></div>
+    <div class="tile orange"><Logo variant="claro" height={200} /></div>
+  </div>
+  <div class="art"><GradientArt /></div>
+  <p class="tagline">{brand.tagline}</p>
+  <h2>Contenido</h2>
+  <div class="grid g3">
+    {sections.map(([t, href, d], i) => (
+      <a class="card link" href={href}>
+        <div class="card-body"><p class="num">{String(i + 1).padStart(2, '0')}</p><p class="card-title">{t}</p><p class="card-text">{d}</p></div>
+      </a>
+    ))}
+  </div>
+  <h2>Cómo usar este manual</h2>
+  <ul>
+    <li>Las reglas están escritas como instrucciones. Si algo no aparece aquí, elige la opción más simple y consulta antes de inventar un estilo nuevo.</li>
+    <li>Los valores (colores, tamaños, tipografía) salen del archivo <code>tokens.json</code> del sistema de diseño: si cambian ahí, cambian aquí.</li>
+    <li>Usa el selector de tema de la barra lateral para ver los colores en claro y oscuro. {ui.printHint}</li>
+    {brand.provisional && <li>El nombre y el logo son provisionales. Cuando cambien, se actualizan en <code>src/brand.config.ts</code> y en los archivos de logo; el resto del manual se mantiene.</li>}
+  </ul>
+</Manual>
+<style>
+  .hero { margin-top: 40px; }
+  .tile { display: flex; align-items: center; justify-content: center; min-height: 300px; border-radius: var(--radius-md); }
+  .light { background: var(--gray-50); border: var(--stroke-1) solid var(--gray-300); }
+  .orange { background: var(--orange-500); }
+  .art { margin-top: 16px; }
+  .tagline { font-family: var(--font-display); font-size: clamp(28px, 4vw, 44px); line-height: 1.15; font-weight: 500; margin-top: 40px; max-width: none; }
+  .link { text-decoration: none; color: inherit; transition: border-color .12s, box-shadow .12s; }
+  .link:hover { border-color: var(--border-control); box-shadow: var(--shadow-low); }
+  .num { margin: 0 0 8px; font-family: var(--font-display); font-size: 14px; color: var(--text-accent); }
+</style>

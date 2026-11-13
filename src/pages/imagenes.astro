@@ -1,0 +1,63 @@
+---
+import Manual from '../layouts/Manual.astro';
+import GradientArt from '../components/GradientArt.astro';
+import Rule from '../components/Rule.astro';
+import { Image } from 'astro:assets';
+import a from '../assets/img/editor-perspectiva-a.png';
+import b from '../assets/img/editor-perspectiva-b.png';
+---
+<Manual title="Fotografía e ilustración">
+  <p class="eyebrow">06</p>
+  <h1>Fotografía e ilustración</h1>
+  <p class="lead">La ilustración de la marca es un degradado cálido y suave, como luz naranja. Para mostrar el producto usamos capturas reales de la aplicación.</p>
+
+  <h2>Ilustración: degradado</h2>
+  <div class="hero"><GradientArt width={1600} height={700} /></div>
+  <div class="grid g3">
+    <div class="card"><div class="card-body"><p class="card-title">Construcción</p><p class="card-text">Manchas de color de la paleta, muy desenfocadas sobre un color base. El resultado se lee como luz, nunca como formas.</p></div></div>
+    <div class="card"><div class="card-body"><p class="card-title">Color</p><p class="card-text">Base <code>orange-500</code>; luces en <code>orange-400</code>, <code>orange-300</code> y <code>brand-peach</code>; profundidad con <code>brand-deep</code>.</p></div></div>
+    <div class="card"><div class="card-body"><p class="card-title">Monograma</p><p class="card-text">Opcional, al centro y siempre nítido: claro sobre la versión naranja, a color sobre la versión clara.</p></div></div>
+  </div>
+
+  <h3>Dos versiones</h3>
+  <div class="grid g2">
+    <figure class="card"><GradientArt width={1200} height={800} monogram={false} /><figcaption class="card-body"><p class="card-title">Naranja</p><p class="card-text">Splash, banners y portadas. Texto en <code>gray-950</code> o el logo claro.</p></figcaption></figure>
+    <figure class="card"><GradientArt width={1200} height={800} preset="claro" monogram={false} /><figcaption class="card-body"><p class="card-title">Claro</p><p class="card-text">Blanco que se calienta hacia abajo. Texto en <code>brand-ink</code> en la zona blanca.</p></figcaption></figure>
+    <figure class="card"><GradientArt width={800} height={800} /><figcaption class="card-body"><p class="card-text">Naranja con monograma: icono de carga y avatares grandes.</p></figcaption></figure>
+    <figure class="card"><GradientArt width={800} height={800} preset="claro" monogramSize={0.36} /><figcaption class="card-body"><p class="card-text">Claro con monograma a color.</p></figcaption></figure>
+  </div>
+
+  <h3>Cómo hacerlo</h3>
+  <ul>
+    <li><strong>Figma o Penpot:</strong> dibuja 5 a 8 círculos grandes con los colores de la paleta, que se salgan del marco, y cúbrelos con un rectángulo con desenfoque de fondo (<em>background blur</em>) alto y un relleno casi transparente del color base. También funciona aplicar desenfoque de capa a los círculos.</li>
+    <li><strong>Inkscape:</strong> círculos agrupados con desenfoque gaussiano (Filtros › Desenfoques) y recorte al tamaño del lienzo.</li>
+    <li><strong>Listo para usar:</strong> fondos en SVG y PNG en <a href="/descargas/">Descargas</a>.</li>
+  </ul>
+
+  <div class="grid g2">
+    <Rule type="do">Mantén el degradado suave: ninguna mancha debe leerse como un círculo.</Rule>
+    <Rule type="dont">No uses degradados lineales de dos colores ni tonos fuera de la paleta (azules, morados, rosas).</Rule>
+    <Rule type="do">Coloca texto y logo sobre las zonas más uniformes del degradado.</Rule>
+    <Rule type="dont">No desenfoques el logo, el texto ni las capturas: solo el fondo.</Rule>
+  </div>
+
+  <h2>Fotografía y capturas</h2>
+  <p class="callout"><strong>Dirección propuesta.</strong> Aún no hay una sesión fotográfica de la marca. Mientras tanto, la imagen principal es el producto.</p>
+  <div class="grid g2">
+    <figure class="card"><Image src={a} alt="El editor de Cicerón en perspectiva" loading="eager" widths={[600, 1200]} sizes="(max-width: 900px) 100vw, 50vw" /><figcaption class="card-body"><p class="card-text">Editor en perspectiva, para banners y portadas.</p></figcaption></figure>
+    <figure class="card"><Image src={b} alt="El editor de Cicerón en perspectiva, otro ángulo" loading="eager" widths={[600, 1200]} sizes="(max-width: 900px) 100vw, 50vw" /><figcaption class="card-body"><p class="card-text">Variante con otro ángulo.</p></figcaption></figure>
+  </div>
+  <h3>Principios</h3>
+  <div class="grid g2">
+    <Rule type="do">Capturas reales de la app, con diseños creíbles y en el tema claro u oscuro, sin mezclarlos en una pieza.</Rule>
+    <Rule type="dont">No uses maquetas falsas que muestren funciones que la app no tiene.</Rule>
+    <Rule type="do">Si hay fotografía de personas: luz natural y cálida, gente creando en su propio espacio.</Rule>
+    <Rule type="dont">Nada de fotos de banco genéricas (manos sobre teclados, oficinas de cristal, apretones de mano).</Rule>
+  </div>
+</Manual>
+<style>
+  .hero { margin: 16px 0; }
+  figure { margin: 0; }
+  .card :global(.gradient-art svg) { border-radius: 0; }
+  .card :global(img) { display: block; width: 100%; height: auto; }
+</style>
